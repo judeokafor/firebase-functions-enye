@@ -38,7 +38,10 @@ exports.createUUID = functions.database
 	.onCreate((snapshot, context) => {
 		const user = snapshot.val();
 		const uuid = require('uuid/v5');
-		const useruuid = uuid(`${user.firstname}${user.lastname}`, uuid.DNS);
+		const useruuid = uuid(
+			`${user.firstname}${user.lastname} ${Date.now()}`,
+			uuid.DNS
+		);
 		user.id = useruuid;
 		return snapshot.ref.parent.child('/').set(user);
 	});
